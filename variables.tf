@@ -16,9 +16,26 @@ variable "cloudflare_zone_id" {
   type        = string
 }
 
+variable "labelstudio_access_roles" {
+  type = string
+  default = "admin,monitoring"
+}
+
 variable "metamigo_access_roles" {
   type = string
   default = "admin,monitoring"
+}
+
+
+variable "labelstudio_domain" {
+  description = <<EOT
+    The domain name for the Label Studio user interface. Do not include a tailing dot at the end of the domain name. Only
+    the user interface for Label Studio is exposed, all other communication happens internally within the Docker network.
+    By default, the domain name will be formed of `$${environment}-ls.$${cloudflare_zone_name}`. The zone name is
+    retrieved from Cloudflare based on the Zone ID.
+  EOT
+  type        = string
+  default     = null
 }
 
 variable "metamigo_domain" {

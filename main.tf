@@ -10,6 +10,11 @@ locals {
       name   = "${module.this.id} :: Metamigo"
       roles  = split(",", var.metamigo_access_roles)
     }
+    (local.labelstudio_domain) = {
+      domain = local.labelstudio_domain
+      name   = "${module.this.id} :: LabelStudio"
+      roles  = split(",", var.labelstudio_access_roles)
+    }
   }
   access_overrides = {
     "${local.zammad_domain}/api/v1/sms_webhook/" = {
@@ -29,6 +34,7 @@ locals {
       name   = "${module.this.id} :: Twilio Voice"
     }
   }
+  labelstudio_domain   = coalesce(var.labelstudio_domain, "${module.this.tenant}-ls.${data.cloudflare_zone.this.name}")
   metamigo_domain = coalesce(var.metamigo_domain, "${module.this.tenant}-admin.${data.cloudflare_zone.this.name}")
   zammad_domain   = coalesce(var.zammad_domain, "${module.this.tenant}.${data.cloudflare_zone.this.name}")
 }
